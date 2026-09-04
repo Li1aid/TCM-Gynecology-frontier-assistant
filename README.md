@@ -1,4 +1,31 @@
-# 🌸 妇科前沿研究助手
+# Gynaecology Radar · 妇科前沿研究助手
+
+Every new paper in gynaecology, graded before breakfast. A daily research brief built for one medical researcher, in daily use.
+
+<img src="https://aidenyang.me/Assets/gyn-dashboard.svg" width="720">
+
+**Case study:** [aidenyang.me/projects/gyn-dashboard.html](https://aidenyang.me/projects/gyn-dashboard.html)
+
+## What it does
+
+- Pulls new papers from PubMed (journal whitelist + a separate guideline route) and academic news from ~24 sources (WHO, FIGO, ACOG, ASRM, NICE, ESGO, ESMO, STAT, Nature…).
+- Claude grades every paper **A / B / C** and writes a 10-field structured card in Chinese: core question, design, results, limitations, why it matters, next steps.
+- News is triaged first by Haiku (relevant or not), then summarised and classified into 8 types (guideline, consensus, rename, diagnostic, statement, major trial, safety, breakthrough).
+- A four-tab dashboard (papers / news / weekly picks / favourites) with cross-device favourites via GitHub Gist. Runs every morning at 08:00 via launchd.
+
+## How it works
+
+```
+fetch_papers.py   PubMed search → PMID cache → Claude card per paper (10 concurrent)
+fetch_news.py     24 sources in parallel → keyword prefilter → Haiku triage → Claude summary → semantic dedupe
+server.py         local HTTP server · POST /refresh runs both scripts in parallel
+dashboard.html    the brief
+```
+
+Everything below is the operating guide, in Chinese.
+
+---
+
 
 > 个人定制的妇科前沿文献与学术动态追踪工具。基于 [REQUIREMENTS.md](REQUIREMENTS.md) 设计。
 
