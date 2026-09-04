@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.gyndashboard.daily</string>
+
+    <key>WorkingDirectory</key>
+    <string>__PROJECT_DIR__</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>-c</string>
+        <string>cd "__PROJECT_DIR__" || exit 1; set -a; source .env || exit 1; set +a; /usr/bin/python3 fetch_papers.py --days 1 --max-ai 50 &gt;&gt; daily.log 2&gt;&amp;1 &amp; PAPERS_PID=$!; /usr/bin/python3 fetch_news.py --days 1 --top 40 &gt;&gt; daily.log 2&gt;&amp;1 &amp; NEWS_PID=$!; wait "$PAPERS_PID"; PAPERS_STATUS=$?; wait "$NEWS_PID"; NEWS_STATUS=$?; [ "$PAPERS_STATUS" -eq 0 ] &amp;&amp; [ "$NEWS_STATUS" -eq 0 ]</string>
+    </array>
+
+    <!-- 每天早上 8:00 跑 -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>8</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+
+    <key>StandardOutPath</key>
+    <string>__PROJECT_DIR__/daily.log</string>
+    <key>StandardErrorPath</key>
+    <string>__PROJECT_DIR__/daily.log</string>
+
+    <key>RunAtLoad</key>
+    <false/>
+</dict>
+</plist>

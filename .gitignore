@@ -1,0 +1,26 @@
+# 密钥和本地配置
+.env
+
+# 生成的数据（Railway Volume 里管）
+data.json
+news.json
+daily.log
+.server.log
+.extension_cache.json
+.news_cache.json
+.pubmed_cache.json
+favorites.json
+favorites_history/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# macOS
+.DS_Store
+
+# IDE / 工具
+.vscode/
+.claude/
+.superpowers/

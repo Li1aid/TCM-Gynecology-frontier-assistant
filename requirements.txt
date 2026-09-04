@@ -1,0 +1,3 @@
+anthropic>=0.100.0
+certifi>=2026.4.0
+feedparser>=6.0.11

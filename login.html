@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>登录 — 妇科前沿助手</title>
+<style>
+  :root,
+  :root[data-theme="light"] {
+    --bg: #faf8f3;
+    --panel: #ffffff;
+    --bg-soft: #ede7d3;
+    --border: #d4cdb8;
+    --border-strong: #c4ba9c;
+    --text: #1a1a1a;
+    --muted: #6b5e44;
+    --text-dim: #a8a08a;
+    --accent: #8b2c2c;
+    --accent-soft: rgba(139, 44, 44, 0.10);
+    --alert: #a8341a;
+    --hover-bg: rgba(0, 0, 0, 0.02);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06);
+  }
+  :root[data-theme="dark"] {
+    --bg: #1c1814;
+    --panel: #25201a;
+    --bg-soft: #14110d;
+    --border: rgba(237, 231, 211, 0.10);
+    --border-strong: rgba(237, 231, 211, 0.16);
+    --text: #f0ead3;
+    --muted: #a8a08a;
+    --text-dim: #6b6354;
+    --accent: #d49a4f;
+    --accent-soft: rgba(212, 154, 79, 0.14);
+    --alert: #e0654a;
+    --hover-bg: rgba(255, 255, 255, 0.04);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  body {
+    margin: 0; min-height: 100vh;
+    background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text",
+                 "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+    font-size: 14px; line-height: 1.55; letter-spacing: -0.005em;
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .card {
+    width: 100%; max-width: 400px;
+    background: var(--panel);
+    border: 1px solid var(--border-strong);
+    border-top: 3px double var(--accent);
+    border-radius: 4px;
+    padding: 36px 36px 32px;
+    box-shadow: var(--shadow-md);
+  }
+  .brand-eyebrow {
+    font-family: "Times New Roman", "Songti SC", serif;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.32em;
+    color: var(--accent);
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .brand {
+    font-family: "Times New Roman", "Songti SC", "STSong", serif;
+    font-size: 26px; font-weight: 700;
+    letter-spacing: 0.02em; margin: 0 0 6px;
+    text-align: center;
+    color: var(--text);
+  }
+  .subtitle {
+    font-family: "Times New Roman", serif;
+    font-style: italic;
+    font-size: 12px; color: var(--muted);
+    text-align: center; margin: 0 0 28px;
+  }
+  label {
+    display: block;
+    font-family: "Times New Roman", "Songti SC", serif;
+    font-size: 10px; font-weight: 700;
+    color: var(--accent); text-transform: uppercase;
+    letter-spacing: 0.22em; margin-bottom: 8px;
+  }
+  input[type="password"] {
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 14px; border-radius: 2px;
+    font-size: 15px; font-family: inherit;
+    transition: all 0.15s ease;
+  }
+  input[type="password"]:focus {
+    outline: none; border-color: var(--accent);
+  }
+  .btn-login {
+    width: 100%; margin-top: 18px;
+    background: var(--accent); color: #ffffff;
+    border: 1px solid var(--accent);
+    padding: 10px 20px;
+    border-radius: 2px;
+    font-size: 14px; font-weight: 500;
+    font-family: inherit; cursor: pointer;
+    letter-spacing: 0.04em;
+    transition: filter 0.15s ease, transform 0.1s ease;
+  }
+  .btn-login:hover:not(:disabled) { filter: brightness(1.10); }
+  .btn-login:active:not(:disabled) { transform: scale(0.97); }
+  .btn-login:disabled { opacity: 0.5; cursor: default; }
+  .err {
+    margin-top: 14px;
+    font-family: "Times New Roman", serif;
+    font-style: italic;
+    font-size: 12px; color: var(--alert);
+    text-align: center; min-height: 16px;
+    transition: opacity 0.2s ease;
+  }
+  .theme-toggle {
+    position: fixed; top: 20px; right: 24px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text); cursor: pointer;
+    padding: 6px 10px; border-radius: 4px;
+    font-size: 12px; font-weight: 500;
+    font-family: inherit;
+    transition: all 0.15s ease;
+  }
+  .theme-toggle:hover {
+    background: var(--hover-bg);
+    border-color: var(--border-strong);
+  }
+</style>
+</head>
+<body>
+  <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换亮/暗模式">亮</button>
+
+  <form class="card" id="loginForm" autocomplete="off">
+    <div class="brand-eyebrow">妇 科 前 沿 助 手</div>
+    <h1 class="brand">每日学术看板</h1>
+    <div class="subtitle">PubMed 顶刊 · 学会与媒体动态 · 中医视角</div>
+    <label for="password">密码</label>
+    <input type="password" id="password" name="password" required autofocus>
+    <button type="submit" class="btn-login" id="loginBtn">登录</button>
+    <div class="err" id="err"></div>
+  </form>
+
+  <script>
+    function applyTheme(t) {
+      document.documentElement.setAttribute("data-theme", t);
+      const btn = document.getElementById("themeToggle");
+      if (btn) btn.textContent = t === "dark" ? "暗" : "亮";
+      try { localStorage.setItem("theme", t); } catch {}
+    }
+    function toggleTheme() {
+      const cur = document.documentElement.getAttribute("data-theme") || "light";
+      applyTheme(cur === "dark" ? "light" : "dark");
+    }
+    (function init() {
+      let saved = null;
+      try { saved = localStorage.getItem("theme"); } catch {}
+      if (saved === "dark" || saved === "light") applyTheme(saved);
+      else {
+        const dark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+        applyTheme(dark ? "dark" : "light");
+      }
+    })();
+
+    function getReturnPath() {
+      const params = new URLSearchParams(location.search);
+      let r = params.get("return") || "/dashboard.html";
+      // 安全:必须是同站的绝对路径
+      if (!r.startsWith("/")) r = "/dashboard.html";
+      return r;
+    }
+
+    const form = document.getElementById("loginForm");
+    const btn = document.getElementById("loginBtn");
+    const err = document.getElementById("err");
+    const pwdInput = document.getElementById("password");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const password = pwdInput.value;
+      if (!password) return;
+      btn.disabled = true; btn.textContent = "验证中…"; err.textContent = "";
+      try {
+        const r = await fetch("/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ password }),
+        });
+        if (r.ok) {
+          location.replace(getReturnPath());
+        } else if (r.status === 401) {
+          err.textContent = "密码错误";
+          pwdInput.select();
+        } else if (r.status === 503) {
+          err.textContent = "服务端未配置密码,请联系管理员";
+        } else {
+          err.textContent = "登录失败,请稍后再试";
+        }
+      } catch {
+        err.textContent = "网络异常";
+      }
+      btn.disabled = false; btn.textContent = "登录";
+    });
+  </script>
+</body>
+</html>

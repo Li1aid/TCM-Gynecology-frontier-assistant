@@ -1,0 +1,17 @@
+{
+  "_comment": "中文学会/重要个人补录的学术动态。每条会被合并进 news.json。模板见下:",
+  "_template": {
+    "title": "原始中/英文标题",
+    "headline_zh": "中文一句话标题",
+    "source": "中华医学会妇产科学分会",
+    "tag": "中华妇产",
+    "url": "https://example.com/guideline-2026.pdf",
+    "date": "2026-05-13",
+    "news_type": "guideline|consensus|rename|diagnostic|statement|major_trial|safety|breakthrough|general",
+    "importance": 5,
+    "why_matters": "对中医妇科的意义,30字内",
+    "is_relevant": true
+  },
+  "items": [
+  ]
+}
